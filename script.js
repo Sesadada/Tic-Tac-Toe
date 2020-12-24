@@ -1,113 +1,123 @@
-let playerX;
-let player0;
-let currentPlayer;
 
-// Player Factory
 const Player = (name, marker) => {
-  const board = document.querySelector(".board");
-  let play;
-  const getName = () => name;
-  const rendering = () => {
+  const message = document.querySelector(".message");
+  let privatePoints = [];
+  this.cell;
+  let self = this;
+  const board = document.querySelector(".game--container");
+  const getPlay = () => {
     board.addEventListener("click", (e) => {
       e.preventDefault();
       if (e.target.textContent == "") {
         e.target.textContent = marker;
-        play = e.target.id;
-        console.log(name, play);
+        self.cell = parseInt(e.target.getAttribute("data-cell-index"));
+        privatePoints.push(self.cell);
+        if (privatePoints.length >= 3) {
+          const privateSorted = privatePoints.slice().sort();
+          console.log(privateSorted);
+          for (const x of gameBoard.winCon) {
+            if (
+              x
+                .slice()
+                .sort()
+                .every((value) => privateSorted.includes(parseInt(value)))
+            ) {
+              play.update.textContent = `${name} wins!`;
+              console.log(`${name} wins!`);
+
+              //setTimeout(window.location.reload.bind(window.location), 3000);
+            }
+          }
+        }
       }
     });
+    return self.cell;
   };
 
-  const getPlay = () => play;
+  const getMarker = () => marker;
+  const getName = () => name;
+  const getPoints = () => privatePoints;
 
   return {
+    getMarker,
     getName,
-    rendering,
     getPlay,
+    getPoints,
   };
 };
 
-const human = () => {
-  let clicked = null;
-  const message = document.querySelector(".message");
-  const btnHuman = document.querySelector("#human");
-  btnHuman.addEventListener("click", () => {
-    if (clicked == null) {
-      clicked = true;
-      const choose = document.createElement("div");
-      choose.classList = "choose";
-      choose.textContent = "Write you names";
-      const input1 = document.createElement("input");
-      input1.setAttribute("class", "player1");
-      input1.setAttribute("style", "margin-top: 10px");
-      input1.placeholder = "Player X (starts)";
-      const input2 = document.createElement("input");
-      input2.setAttribute("class", "player2");
-      input2.setAttribute("style", "margin-top: 10px");
-      input2.placeholder = "Player 0";
-      const start = document.createElement("button");
-      start.textContent = "start";
-      start.setAttribute("style", "margin-top: 10px");
-      message.appendChild(choose);
-      choose.appendChild(input1);
-      choose.appendChild(input2);
-      choose.appendChild(start);
-      start.addEventListener("click", (e) => {
-        e.preventDefault();
-        console.log("starting game");
-        startGame();
-        message.removeChild(choose);
+//gameBoard render ----------------------------------------------------------------
+const gameBoard = (() => {
+  let points = ["", "", "", "", "", "", "", "", ""]; //create empty array waiting for marks
+  const cells = document.querySelectorAll(".cell"); //selects all spaces in the dom ready to be marked from array
+
+  points = points.map((point, index) => {
+    //renders the Point array to the DOM
+    cells.forEach((cell) => {
+      let idx = parseInt(cell.getAttribute("data-cell-index"));
+      if (index == idx) {
+        cell.textContent = point;
+      }
+    });
+  });
+
+  const displayTurn = (player) => {
+    //play turn function (select cell from DOM)
+    if (player.getPlay()) {
+      points = points.map(x, (index) => {
+        if (index == player.getPlay()) {
+          x = player.getMarker;
+        }
       });
     }
-  });
-};
-human();
-
-const startGame = () => {
-  playX = [];
-  play0 = [];
-  let player1 = document.querySelector(".player1").value;
-  let player2 = document.querySelector(".player2").value;
-  playerX = Player(player1, "X");
-  player0 = Player(player2, "0");
-  playerX.rendering();
-  playX.push(playerX.getPlay());
-  console.log(playX);
+    return points;
+  };
 
   const winCon = [
-    ["col1", "col2", "col3"],
-    ["col4", "col5", "col6"],
-    ["col7", "col8", "col9"],
-    ["col1", "col4", "col7"],
-    ["col2", "col5", "col8"],
-    ["col3", "col6", "col9"],
-    ["col1", "col5", "col9"],
-    ["col3", "col5", "col7"],
+    ["0", "1", "2"],
+    ["3", "4", "5"],
+    ["6", "7", "8"],
+    ["0", "3", "6"],
+    ["1", "4", "7"],
+    ["2", "5", "8"],
+    ["0", "4", "8"],
+    ["2", "4", "6"],
   ];
-};
 
-//display the game flow controller (object) with module (I only need one)
+  return { displayTurn, winCon };
+})();
 
-/*
-Logic
+const play = (() => {
+  let playerX;
+  let player0;
+  let currentPlayer;
+  const update = document.querySelector(".update");
+  const start = document.querySelector("#start");
 
-- gameboard object ( module ):
-     - array with play by player1
-     - array with play by player2
-     - function rendering the display
+  const playGame = (player, x, o) => {
+    player = player === x ? o : x;
+    gameBoard.displayTurn(player);
+    update.textContent = `${player.getName()} playing`;
+  };
 
-- gameFlow controller ( module )
-     - controls winner
-     - display winner message
+  let started = "";
 
-- Player object ( factory ):
-     - mark the gameboard with its sign 
-     - add each time the sign to the array player(1/2)
-     - function that checks weather the spot is already taken
-     - use rendering function
-     
+  start.addEventListener("click", (e) => {
+    let namePlayerX = document.getElementById("playerX").value;
+    let namePlayer0 = document.getElementById("player0").value;
+    if (started == 1) {
+      location.reload();
+    } else if (update.textContent != "") {
+      started = 1;
+      playerX = Player(namePlayerX, "X");
+      player0 = Player(namePlayer0, "0");
+      Math.round(Math.random()) == 0
+        ? (currentPlayer = playerX)
+        : (currentPlayer = player0);
+      playGame(currentPlayer, playerX, player0);
+    }
+  });
 
+  return { update };
+})();
 
-*/
-
-// const gameBoard = [col1, col2, col3, col4, col5, col6, col7, col8, col9];

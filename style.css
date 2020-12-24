@@ -11,7 +11,8 @@ section {
   display: grid;
   grid-template-columns: repeat(3, auto);
   width: 306px;
-  margin: 50px auto;
+  margin: auto;
+  margin-bottom: 20px;
 }
 .cell {
   font-family: "Permanent Marker", cursive;
@@ -52,4 +53,8 @@ section {
   width: 60px;
   height: 25px;
   text-align: center;
+}
+
+.update {
+  margin: 10px auto;
 }
