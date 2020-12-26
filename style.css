@@ -27,7 +27,7 @@ section {
 
 .message {
   height: 200px;
-  width: 500px;
+  width: 800px;
   justify-content: center;
   margin: auto;
   text-align: center;
@@ -42,6 +42,17 @@ section {
   width: 80px;
   color: rgb(80, 78, 78);
   font-size: 15px;
+}
+
+.ai{
+  display: inline;
+  margin-left: 205px;
+  padding: 3px;
+  text-align: right;
+  width: 80px;
+  color: rgb(80, 78, 78);
+  font-size: 15px;
+
 }
 
 #start {

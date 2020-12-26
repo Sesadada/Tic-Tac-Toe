@@ -5,40 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe Game</title>
+    <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Tic Tac Toe Game</h1>
+    <section>
+        <h1 class="game--title">Tic Tac Toe</h1>
+        <div class="game--container">
+            <div data-cell-index="0" class="cell"></div>
+            <div data-cell-index="1" class="cell"></div>
+            <div data-cell-index="2" class="cell"></div>
+            <div data-cell-index="3" class="cell"></div>
+            <div data-cell-index="4" class="cell"></div>
+            <div data-cell-index="5" class="cell"></div>
+            <div data-cell-index="6" class="cell"></div>
+            <div data-cell-index="7" class="cell"></div>
+            <div data-cell-index="8" class="cell"></div>
+        </div>
+        <div class="update">
+            <h2 class="game--status"></h2>
+        </div>
 
-    <div class="players">
-        <div class="btn" id="computer">
-            <button>Play against the computer</button></div>
-        <div class="btn" id="human">
-            <button>Play against a human</button>
-        </div>
-    </div>
-
-    <div class="board">
-        <div id="row-up" class="row">
-            <div id="col1" class="col" datacell></div>
-            <div id="col2" class="col" datacell></div>
-            <div id="col3" class="col" datacell></div>
-        </div>
-        <div id="row-middle" class="row">
-            <div id="col4" class="col" datacell></div>
-            <div id="col5" class="col" datacell></div>
-            <div id="col6" class="col" datacell></div>
-        </div>
-        <div id="bottom">
-            <div id="col7" class="col" datacell></div>
-            <div id="col8" class="col" datacell></div>
-            <div id="col9" class="col" datacell></div>
-        </div>
-    </div>
+    </section>
+    <section>
     <div class="message">
-        <div class="winnerText"></div>
+        <div class="choose">Write your names:</div>
+        <input class="choose" type="text" id="playerX" placeholder="Player X">
+        <input class="choose" type="text" id="player0" placeholder="Player 0">
+        <button id="start" class="game--restart">Start</button> 
+        <div class="choose">||</div>
+
+        <button id="start" class="game--ai">AI</button>
+
+        </div>
+
     </div>
+</section>
     <script src="script.js"></script>
 </body>
 
