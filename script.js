@@ -55,7 +55,7 @@ let player0;
 let currentPlayer;
 let xPoints = []
 let oPoints = []
-let aiplay = "no"
+
 
 const zero = () => {
   location.reload();
@@ -64,20 +64,6 @@ const zero = () => {
   started = ""
 }
 
-ai.addEventListener("click", (e) => {
-  e.preventDefault()
- 
-  if(started != ""){
-    update.textContent = `You need to restart the AI to play`
-    zero()
-  } else {
-    aiplay = "yes"
-    started = 1
-    gameInit("Human", "Computer")
-  }
-  
-
-})
 
 start.addEventListener("click", (e) => {
   e.preventDefault()
@@ -97,17 +83,13 @@ const gameInit = (name1, name2) => {
     Math.round(Math.random()) == 0
       ? (currentPlayer = playerX)
       : (currentPlayer = player0);
-    if(aiplay == "yes"){
-console.log("yes")
-    } else {
     gameRound(currentPlayer);
-    update.textContent = `${currentPlayer.getName()} starts!`;
-    console.log(`currentplayer in gameinit: ${currentPlayer.getName()}`)
-    }
+    update.textContent = `${currentPlayer.getName()} starts!`;    
   };
 
 const winnerChecker = (arr, player) =>{
   if (arr.length >= 3) {
+    console.log(`${player.getName()} - ${arr}`)
     const privateSorted =  arr.slice().sort();
     for (const x of gameBoard.winCon) {
       if (
@@ -117,20 +99,23 @@ const winnerChecker = (arr, player) =>{
         won = "yes"
       }
     }
-  } else if(xPoints.length + oPoints.length == 9 && won != "yes"){
+  } 
+  if(xPoints.length + oPoints.length === 9 && won != "yes"){
+    console.log(xPoints.length + oPoints.length)
+    console.log("tie")
     update.textContent = `It's a tie!`
   }
 }
   
 const gameRound = () => {
   currentPlayer = currentPlayer === playerX ? player0 : playerX;
+ 
   };
 
 board.addEventListener("click", (e) =>{
   e.preventDefault()
-  if (started == "" || started == "" && aiplay == "yes"){
+  if (started == ""){
     update.textContent = `Either you didn't put the names or press start!`
-   
   } else {
   if(won === "yes"){
     zero()
